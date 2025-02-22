@@ -1,8 +1,7 @@
 ﻿namespace StructuredMarket.Domain.Entities
 {
-    public class Permission
+    public class Permission: IEntity
     {
-        public Guid Id { get; set; } = Guid.NewGuid();
         public string Name { get; set; } = string.Empty;
     }
 }

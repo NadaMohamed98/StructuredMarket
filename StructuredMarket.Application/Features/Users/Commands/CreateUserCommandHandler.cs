@@ -1,28 +1,41 @@
 ﻿using MediatR;
-using Microsoft.AspNet.Identity;
+using Microsoft.AspNetCore.Identity;
+using StructuredMarket.Application.Repositories;
 using StructuredMarket.Domain.Entities;
+using System;
+using System.Threading;
+using System.Threading.Tasks;
 
-public class CreateUserCommandHandler : IRequestHandler<CreateUserCommand, Guid>
+namespace StructuredMarket.Application.Features.Users.Commands
 {
-    private readonly IUserRepository _userRepository;
-    private readonly IPasswordHasher _passwordHasher;
-
-    public CreateUserCommandHandler(IUserRepository userRepository, IPasswordHasher passwordHasher)
+    public class CreateUserCommandHandler : IRequestHandler<CreateUserCommand, Guid>
     {
-        _userRepository = userRepository;
-        _passwordHasher = passwordHasher;
-    }
+        private readonly IUnitOfWork _unitOfWork;
+        private readonly IPasswordHasher<User> _passwordHasher;
 
-    public async Task<Guid> Handle(CreateUserCommand request, CancellationToken cancellationToken)
-    {
-        if (await _userRepository.ExistsByEmailAsync(request.Email))
+        public CreateUserCommandHandler(IUnitOfWork unitOfWork, IPasswordHasher<User> passwordHasher)
         {
-            throw new Exception("Email already exists.");
+            _unitOfWork = unitOfWork;
+            _passwordHasher = passwordHasher;
         }
 
-        var user = new User(request.FirstName, request.LastName, request.Email, _passwordHasher.HashPassword(request.Password));
-        await _userRepository.AddAsync(user);
+        public async Task<Guid> Handle(CreateUserCommand request, CancellationToken cancellationToken)
+        {
+            if (await _unitOfWork.Users.ExistsByEmailAsync(request.Email))
+            {
+                throw new Exception("Email already exists.");
+            }
 
-        return user.Id;
+            // Initialize user without a password hash first
+            var user = new User(request.FirstName, request.LastName, request.Email, "");
+
+            // Hash the password and assign it
+            user.PasswordHash = _passwordHasher.HashPassword(user, request.Password);
+
+            // Save to DB
+            await _unitOfWork.Users.AddAsync(user);
+            await _unitOfWork.SaveChangesAsync();
+            return user.Id;
+        }
     }
 }

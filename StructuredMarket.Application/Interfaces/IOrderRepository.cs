@@ -1,9 +1,9 @@
 ﻿using StructuredMarket.Application.Repositories;
 using StructuredMarket.Domain.Entities;
+
 namespace StructuredMarket.Application.Interfaces
 {
-    public interface IUserRepository : IGenericRepository<User>
+    public interface IOrderRepository : IGenericRepository<Order>
     {
-        Task<bool> ExistsByEmailAsync(string email);
     }
 }
