@@ -12,7 +12,7 @@ using StructuredMarket.Infrastructure.Data;
 namespace StructuredMarket.Infrastructure.Migrations
 {
     [DbContext(typeof(StructuredMarketDbContext))]
-    [Migration("20250222172750_InitialCreate")]
+    [Migration("20250222203255_InitialCreate")]
     partial class InitialCreate
     {
         /// <inheritdoc />
@@ -216,6 +216,22 @@ namespace StructuredMarket.Infrastructure.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("Roles");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = new Guid("154b4249-0e3d-4d4b-92dc-81c6b2e330cd"),
+                            CreatedAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            CreatedBy = new Guid("00000000-0000-0000-0000-000000000000"),
+                            Name = "ADMIN"
+                        },
+                        new
+                        {
+                            Id = new Guid("66266cd5-785d-4cbc-9a87-47e533812885"),
+                            CreatedAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            CreatedBy = new Guid("00000000-0000-0000-0000-000000000000"),
+                            Name = "USER"
+                        });
                 });
 
             modelBuilder.Entity("StructuredMarket.Domain.Entities.User", b =>
@@ -247,11 +263,19 @@ namespace StructuredMarket.Infrastructure.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<string>("Phone")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<DateTime?>("UpdatedAt")
                         .HasColumnType("datetime2");
 
                     b.Property<Guid?>("UpdatedBy")
                         .HasColumnType("uniqueidentifier");
+
+                    b.Property<string>("Username")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
 

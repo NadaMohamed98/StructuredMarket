@@ -1,5 +1,7 @@
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Mvc.Versioning;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.IdentityModel.Tokens;
 using Serilog;
 using StructuredMarket.Domain.Entities;
@@ -58,6 +60,21 @@ builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
 
 // Add Authorization
 builder.Services.AddAuthorization();
+
+// Add API versioning
+builder.Services.AddApiVersioning(options =>
+{
+    options.ReportApiVersions = true; // Adds API versions in response headers
+    options.AssumeDefaultVersionWhenUnspecified = true; // Uses default if no version is specified
+    options.DefaultApiVersion = new ApiVersion(1, 0); // Sets default API version to 1.0
+    options.ApiVersionReader = new UrlSegmentApiVersionReader(); // Reads version from URL segment
+});
+
+builder.Services.AddVersionedApiExplorer(options =>
+{
+    options.GroupNameFormat = "'v'VVV";
+    options.SubstituteApiVersionInUrl = true;
+});
 
 var app = builder.Build();
 

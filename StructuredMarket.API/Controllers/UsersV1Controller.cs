@@ -5,14 +5,15 @@ using StructuredMarket.Application.Features.Users.Queries;
 
 namespace StructuredMarket.API.Controllers
 {
-    [Route("api/[controller]")]
     [ApiController]
-    public class UsersController : ControllerBase
+    [Route("api/v{version:apiVersion}/[controller]")]
+    [ApiVersion("1.0")]
+    public class UsersV1Controller : ControllerBase
     {
         private readonly IMediator _mediator;
-        private readonly ILogger<UsersController> _logger;
+        private readonly ILogger<UsersV1Controller> _logger;
 
-        public UsersController(IMediator mediator, ILogger<UsersController> logger)
+        public UsersV1Controller(IMediator mediator, ILogger<UsersV1Controller> logger)
         {
             _mediator = mediator;
             _logger = logger;
