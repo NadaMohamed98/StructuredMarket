@@ -21,16 +21,16 @@ namespace StructuredMarket.Application.Features.Users.Commands
 
         public async Task<Guid> Handle(CreateUserCommand request, CancellationToken cancellationToken)
         {
-            if (await _unitOfWork.Users.ExistsByEmailAsync(request.Email))
+            if (await _unitOfWork.Users.ExistsByEmailAsync(request.email))
             {
                 throw new Exception("Email already exists.");
             }
 
             // Initialize user without a password hash first
-            var user = new User(request.FirstName, request.LastName, request.Email, "");
+            var user = new User(request.firstName, request.lastName,request.username, request.email, request.phone);
 
             // Hash the password and assign it
-            user.PasswordHash = _passwordHasher.HashPassword(user, request.Password);
+            user.PasswordHash = _passwordHasher.HashPassword(user, request.password);
 
             // Save to DB
             await _unitOfWork.Users.AddAsync(user);

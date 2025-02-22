@@ -10,16 +10,23 @@ namespace StructuredMarket.API.Controllers
     public class UsersController : ControllerBase
     {
         private readonly IMediator _mediator;
+        private readonly ILogger<UsersController> _logger;
 
-        public UsersController(IMediator mediator)
+        public UsersController(IMediator mediator, ILogger<UsersController> logger)
         {
             _mediator = mediator;
+            _logger = logger;
         }
 
         [HttpPost("register")]
         public async Task<IActionResult> Register([FromBody] CreateUserCommand command)
         {
+            _logger.LogInformation("Register " + command.email);
+
             var result = await _mediator.Send(command);
+
+            _logger.LogInformation("Done register " + command.email);
+
             return Ok(result);
         }
 

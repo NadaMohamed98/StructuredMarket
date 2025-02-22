@@ -1,6 +1,7 @@
 ﻿using Microsoft.Extensions.Configuration;
 using Microsoft.IdentityModel.Tokens;
 using StructuredMarket.Domain.Entities;
+using StructuredMarket.Infrastructure.Common;
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Text;
@@ -9,11 +10,11 @@ namespace StructuredMarket.Infrastructure.Authentication
 {
     public class JwtService
     {
-        private readonly IConfiguration _configuration;
+        private readonly JwtTokenSettings _jwtTokenSettings;
 
-        public JwtService(IConfiguration configuration)
+        public JwtService(JwtTokenSettings jwtTokenSettings)
         {
-            _configuration = configuration;
+            _jwtTokenSettings = jwtTokenSettings;
         }
 
         public string GenerateToken(User user, List<string> roles)
@@ -26,11 +27,11 @@ namespace StructuredMarket.Infrastructure.Authentication
 
             claims.AddRange(roles.Select(role => new Claim(ClaimTypes.Role, role)));
 
-            var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_configuration["Jwt:Key"]));
+            var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_jwtTokenSettings.Key));
             var creds = new SigningCredentials(key, SecurityAlgorithms.HmacSha256);
             var token = new JwtSecurityToken(
-                _configuration["Jwt:Issuer"],
-                _configuration["Jwt:Audience"],
+                _jwtTokenSettings.Issuer,
+                _jwtTokenSettings.Audience,
                 claims,
                 expires: DateTime.UtcNow.AddHours(1),
                 signingCredentials: creds);

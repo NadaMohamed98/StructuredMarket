@@ -32,6 +32,11 @@ namespace StructuredMarket.Infrastructure.Data
                 .HasOne(oi => oi.Order)  // OrderItem has one Order
                 .WithMany(o => o.OrderItems) // Order has many OrderItems
                 .HasForeignKey(oi => oi.OrderId);
+
+            modelBuilder.Entity<Role>().HasData(
+            new Role { Id = new Guid("154B4249-0E3D-4D4B-92DC-81C6B2E330CD"), Name = "ADMIN" },
+            new Role { Id = new Guid("66266CD5-785D-4CBC-9A87-47E533812885"), Name = "USER" }
+        );
         }
     }
 }
