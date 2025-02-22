@@ -1,4 +1,6 @@
-﻿namespace StructuredMarket.Domain.Entities
+﻿using StructuredMarket.Domain.Enums;
+
+namespace StructuredMarket.Domain.Entities
 {
     public class Order
     {
