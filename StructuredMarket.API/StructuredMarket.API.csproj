@@ -31,8 +31,4 @@
     <ProjectReference Include="..\StructuredMarket.Infrastructure\StructuredMarket.Infrastructure.csproj" />
   </ItemGroup>
 
-  <ItemGroup>
-    <Folder Include="Middlewares\" />
-  </ItemGroup>
-
 </Project>

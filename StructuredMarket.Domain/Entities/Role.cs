@@ -11,6 +11,8 @@ namespace StructuredMarket.Domain.Entities
         public Guid? UpdatedBy { get; set; }
         public DateTime? UpdatedAt { get; set; }
 
-        public ICollection<Permission> Permissions { get; set; } = new List<Permission>();
+        public ICollection<UserRole> UserRoles { get; set; } = new List<UserRole>();
+        public ICollection<RolePermission> RolePermissions { get; set; } = new List<RolePermission>();
+
     }
 }

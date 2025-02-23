@@ -1,6 +1,5 @@
-﻿using StructuredMarket.Application.Interfaces;
-using StructuredMarket.Application.Repositories;
-using StructuredMarket.Domain.Entities;
+﻿using StructuredMarket.Application.Interfaces.Repositories;
+using StructuredMarket.Application.Interfaces.Services;
 using StructuredMarket.Infrastructure.Data;
 using StructuredMarket.Infrastructure.Repositories.OrderItemRepo;
 using StructuredMarket.Infrastructure.Repositories.OrderRepo;
@@ -8,11 +7,6 @@ using StructuredMarket.Infrastructure.Repositories.PermissionRepo;
 using StructuredMarket.Infrastructure.Repositories.ProductRepo;
 using StructuredMarket.Infrastructure.Repositories.RoleRepo;
 using StructuredMarket.Infrastructure.Repositories.UserRepo;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace StructuredMarket.Infrastructure.Repositories
 {
@@ -29,6 +23,10 @@ namespace StructuredMarket.Infrastructure.Repositories
 
         public IOrderItemRepository OrderItems { get; }
 
+        public IRolePermissionRepository RolePermissions { get; }
+
+        public IUserRoleRepository UserRoles { get; }
+
         public UnitOfWork(StructuredMarketDbContext context)
         {
             _context = context;
@@ -38,6 +36,7 @@ namespace StructuredMarket.Infrastructure.Repositories
             Products = new ProductRepository(context);
             Orders = new OrderRepository(context);
             OrderItems = new OrderItemRepository(context);
+            UserRoles = new UserRoleRepository(context);
         }
 
         public async Task<int> SaveChangesAsync() => await _context.SaveChangesAsync();

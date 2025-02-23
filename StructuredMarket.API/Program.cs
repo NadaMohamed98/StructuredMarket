@@ -8,6 +8,8 @@ using StructuredMarket.Domain.Entities;
 using StructuredMarket.Infrastructure.Common;
 using StructuredMarket.Infrastructure.Data;
 using System.Text;
+using Microsoft.OpenApi.Models;
+using StructuredMarket.API.Middlewares;
 
 
 var builder = WebApplication.CreateBuilder(args);
@@ -17,9 +19,7 @@ var configuration = builder.Configuration;
 // Add services to the container.
 
 builder.Services.AddControllers();
-// Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
-builder.Services.AddSwaggerGen();
 
 var dbSettingsSection = configuration.GetSection("ConnectionStrings");
 var dbSettings = dbSettingsSection.Get<ConnectionStrings>();
@@ -57,6 +57,37 @@ builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
         };
     });
 
+// Configure Swagger to support JWT authentication
+builder.Services.AddSwaggerGen(options =>
+{
+    options.SwaggerDoc("v1", new OpenApiInfo { Title = "StructuredMarket API", Version = "v1" });
+
+    // Add JWT Authentication to Swagger
+    var securityScheme = new OpenApiSecurityScheme
+    {
+        Name = "Authorization",
+        Description = "Enter the JWT token like this: Bearer {your_token}",
+        In = ParameterLocation.Header,
+        Type = SecuritySchemeType.Http,
+        Scheme = "Bearer",
+        BearerFormat = "JWT",
+        Reference = new OpenApiReference
+        {
+            Type = ReferenceType.SecurityScheme,
+            Id = "Bearer"
+        }
+    };
+
+    options.AddSecurityDefinition("Bearer", securityScheme);
+
+    options.AddSecurityRequirement(new OpenApiSecurityRequirement
+    {
+        {
+            securityScheme,
+            new List<string>()
+        }
+    });
+});
 
 // Add Authorization
 builder.Services.AddAuthorization();
@@ -86,6 +117,9 @@ if (app.Environment.IsDevelopment())
 }
 
 app.UseHttpsRedirection();
+
+// Add custom response middleware
+app.UseMiddleware<ResponseMiddleware>();
 
 app.UseAuthorization();
 

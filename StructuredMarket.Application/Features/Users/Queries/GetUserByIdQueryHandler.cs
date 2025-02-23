@@ -1,7 +1,7 @@
 ﻿using AutoMapper;
 using MediatR;
 using StructuredMarket.Application.Features.Users.Models;
-using StructuredMarket.Application.Interfaces;
+using StructuredMarket.Application.Interfaces.Repositories;
 
 namespace StructuredMarket.Application.Features.Users.Queries
 {

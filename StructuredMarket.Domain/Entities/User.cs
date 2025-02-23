@@ -23,7 +23,7 @@ namespace StructuredMarket.Domain.Entities
         public DateTime CreatedAt { get; set; }
         public Guid? UpdatedBy { get; set; }
         public DateTime? UpdatedAt { get; set; }
-        public ICollection<Role> Roles { get; set; } = new List<Role>();
+        public ICollection<UserRole> UserRoles { get; set; } = new List<UserRole>();
         public ICollection<Order> Orders { get; set; } = new List<Order>();
     }
 }

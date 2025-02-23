@@ -1,6 +1,6 @@
 ﻿using System.Linq.Expressions;
 
-namespace StructuredMarket.Application.Repositories
+namespace StructuredMarket.Application.Interfaces.Repositories
 {
     public interface IGenericRepository<T> where T : class
     {
@@ -9,6 +9,7 @@ namespace StructuredMarket.Application.Repositories
         Task AddAsync(T entity);
         Task UpdateAsync(T entity);
         Task DeleteAsync(T entity);
-
+        Task<T?> FirstOrDefaultAsync(Expression<Func<T, bool>> predicate);
+        Task<List<T>> Where(Expression<Func<T, bool>> predicate);
     }
 }

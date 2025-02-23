@@ -1,4 +1,6 @@
-﻿namespace StructuredMarket.Application.Features.Users.Models
+﻿using System.Text.Json.Serialization;
+
+namespace StructuredMarket.Application.Features.Users.Models
 {
     public class UserDto
     {
@@ -8,6 +10,8 @@
         public string? Username { get; init; }
         public string? Email { get; init; }
         public string? Phone { get; init; }
+
+        [JsonIgnore]
         public string? Password { get; init; }
     }
 }

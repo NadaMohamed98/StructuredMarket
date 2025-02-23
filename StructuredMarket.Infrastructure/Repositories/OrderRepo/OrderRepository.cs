@@ -1,4 +1,4 @@
-﻿using StructuredMarket.Application.Interfaces;
+﻿using StructuredMarket.Application.Interfaces.Repositories;
 using StructuredMarket.Domain.Entities;
 using StructuredMarket.Infrastructure.Data;
 

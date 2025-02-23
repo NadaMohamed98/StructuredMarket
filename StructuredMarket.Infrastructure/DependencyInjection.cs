@@ -1,8 +1,8 @@
 ﻿using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
-using StructuredMarket.Application.Interfaces;
-using StructuredMarket.Application.Repositories;
+using StructuredMarket.Application.Interfaces.Repositories;
+using StructuredMarket.Application.Interfaces.Services;
 using StructuredMarket.Domain.Entities;
 using StructuredMarket.Infrastructure.Authentication;
 using StructuredMarket.Infrastructure.Common;
@@ -32,8 +32,9 @@ public static class DependencyInjection
 
         services.AddScoped<IPermissionRepository, PermissionRepository>();
         services.AddScoped<IRoleRepository, RoleRepository>();
+        services.AddScoped<IUserRoleRepository, UserRoleRepository>();
 
-        services.AddScoped<JwtService>();
+        services.AddScoped<IJwtService, JwtService>();
         services.AddScoped<IPasswordHasher<User>, PasswordHasher<User>>();
 
         return services;

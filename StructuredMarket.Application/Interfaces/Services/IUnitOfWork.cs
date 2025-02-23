@@ -1,8 +1,8 @@
-﻿using StructuredMarket.Application.Interfaces;
+﻿using StructuredMarket.Application.Interfaces.Repositories;
 using StructuredMarket.Domain.Entities;
 using System.Threading.Tasks;
 
-namespace StructuredMarket.Application.Repositories
+namespace StructuredMarket.Application.Interfaces.Services
 {
     public interface IUnitOfWork: IDisposable
     {
@@ -12,6 +12,8 @@ namespace StructuredMarket.Application.Repositories
         IProductRepository Products { get; }
         IOrderRepository Orders { get; }
         IOrderItemRepository OrderItems { get; }
+        IRolePermissionRepository RolePermissions { get; }
+        IUserRoleRepository UserRoles { get; }
         Task<int> SaveChangesAsync();
     }
 }

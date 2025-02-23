@@ -4,9 +4,9 @@ using StructuredMarket.Infrastructure.Data;
 
 namespace StructuredMarket.Infrastructure.Repositories.RoleRepo
 {
-    public class RoleRepository : GenericRepository<Role>, IRoleRepository
+    public class RolePermissionsRepository : GenericRepository<RolePermission>, IRolePermissionRepository
     {
-        public RoleRepository(StructuredMarketDbContext context) : base(context)
+        public RolePermissionsRepository(StructuredMarketDbContext context) : base(context)
         {
         }
     }

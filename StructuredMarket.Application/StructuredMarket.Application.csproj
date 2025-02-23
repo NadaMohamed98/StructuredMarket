@@ -14,10 +14,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="DTOs\" />
-  </ItemGroup>
-
-  <ItemGroup>
     <ProjectReference Include="..\StructuredMarket.Domain\StructuredMarket.Domain.csproj" />
   </ItemGroup>
 

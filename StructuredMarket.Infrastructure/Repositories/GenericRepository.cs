@@ -1,6 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using StructuredMarket.Application.Repositories;
+using StructuredMarket.Application.Interfaces.Repositories;
 using StructuredMarket.Infrastructure.Data;
+using System.Linq.Expressions;
 namespace StructuredMarket.Infrastructure.Repositories
 {
     public class GenericRepository<T> : IGenericRepository<T> where T : class
@@ -34,6 +35,16 @@ namespace StructuredMarket.Infrastructure.Repositories
         {
             _dbSet.Remove(entity);
             await _context.SaveChangesAsync();
+        }
+
+        public async Task<T?> FirstOrDefaultAsync(Expression<Func<T, bool>> predicate)
+        {
+            return await _dbSet.FirstOrDefaultAsync(predicate);
+        }
+        
+        public async Task<List<T>> Where(Expression<Func<T, bool>> predicate)
+        {
+            return await _dbSet.Where(predicate).ToListAsync();
         }
     }
 }
