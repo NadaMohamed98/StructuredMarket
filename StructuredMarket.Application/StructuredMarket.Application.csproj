@@ -17,4 +17,10 @@
     <ProjectReference Include="..\StructuredMarket.Domain\StructuredMarket.Domain.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="Features\Orders\Commands\" />
+    <Folder Include="Features\Orders\Models\" />
+    <Folder Include="Features\Orders\Queries\" />
+  </ItemGroup>
+
 </Project>

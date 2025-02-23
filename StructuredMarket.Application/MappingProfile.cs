@@ -1,11 +1,7 @@
 ﻿using AutoMapper;
+using StructuredMarket.Application.Features.Products.Models;
 using StructuredMarket.Application.Features.Users.Models;
 using StructuredMarket.Domain.Entities;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace StructuredMarket.Application
 {
@@ -14,6 +10,7 @@ namespace StructuredMarket.Application
         public MappingProfile()
         {
             CreateMap<User, UserDto>().ReverseMap();
+            CreateMap<Product, ProductResModel>().ReverseMap();
         }
     }
 }

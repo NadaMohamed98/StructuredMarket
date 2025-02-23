@@ -12,7 +12,7 @@ using StructuredMarket.Infrastructure.Data;
 namespace StructuredMarket.Infrastructure.Migrations
 {
     [DbContext(typeof(StructuredMarketDbContext))]
-    [Migration("20250223192942_InitialCreate")]
+    [Migration("20250223212137_InitialCreate")]
     partial class InitialCreate
     {
         /// <inheritdoc />
@@ -140,15 +140,24 @@ namespace StructuredMarket.Infrastructure.Migrations
                     b.Property<Guid>("CreatedBy")
                         .HasColumnType("uniqueidentifier");
 
+                    b.Property<string>("Description")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Image")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Merchant")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<string>("Name")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<decimal>("Price")
                         .HasColumnType("decimal(18,2)");
-
-                    b.Property<int>("StockQuantity")
-                        .HasColumnType("int");
 
                     b.Property<DateTime?>("UpdatedAt")
                         .HasColumnType("datetime2");
