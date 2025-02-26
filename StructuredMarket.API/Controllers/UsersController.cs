@@ -14,18 +14,18 @@ namespace StructuredMarket.API.Controllers
     [ApiController]
     [Route("api/v{version:apiVersion}")]
     [ApiVersion("1.0")]
-    public class UsersV1Controller : ControllerBase
+    public class UsersController : ControllerBase
     {
         private readonly IMediator _mediator;
-        private readonly ILogger<UsersV1Controller> _logger;
+        private readonly ILogger<UsersController> _logger;
 
-        public UsersV1Controller(IMediator mediator, ILogger<UsersV1Controller> logger)
+        public UsersController(IMediator mediator, ILogger<UsersController> logger)
         {
             _mediator = mediator;
             _logger = logger;
         }
 
-        [Authorize("USER")]
+        //[Authorize("USER")]
         [HttpPost("register")]
         public async Task<IActionResult> Register([FromBody] CreateUserCommand command)
         {
@@ -51,7 +51,7 @@ namespace StructuredMarket.API.Controllers
             }
         }
 
-        [Authorize("ADMIN")]
+        //[Authorize("ADMIN")]
         [HttpPost("register-admin")]
         public async Task<IActionResult> RegisterAdmin([FromBody] CreateAdminCommand command)
         {

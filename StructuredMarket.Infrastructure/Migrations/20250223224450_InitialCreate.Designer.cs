@@ -12,7 +12,7 @@ using StructuredMarket.Infrastructure.Data;
 namespace StructuredMarket.Infrastructure.Migrations
 {
     [DbContext(typeof(StructuredMarketDbContext))]
-    [Migration("20250223212137_InitialCreate")]
+    [Migration("20250223224450_InitialCreate")]
     partial class InitialCreate
     {
         /// <inheritdoc />
@@ -31,26 +31,15 @@ namespace StructuredMarket.Infrastructure.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uniqueidentifier");
 
-                    b.Property<DateTime>("CreatedAt")
+                    b.Property<string>("DeliveryAddress")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTime>("DeliveryTime")
                         .HasColumnType("datetime2");
-
-                    b.Property<Guid>("CreatedBy")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<DateTime>("OrderDate")
-                        .HasColumnType("datetime2");
-
-                    b.Property<int>("Status")
-                        .HasColumnType("int");
 
                     b.Property<decimal>("TotalAmount")
                         .HasColumnType("decimal(18,2)");
-
-                    b.Property<DateTime?>("UpdatedAt")
-                        .HasColumnType("datetime2");
-
-                    b.Property<Guid?>("UpdatedBy")
-                        .HasColumnType("uniqueidentifier");
 
                     b.Property<Guid>("UserId")
                         .HasColumnType("uniqueidentifier");
@@ -60,18 +49,30 @@ namespace StructuredMarket.Infrastructure.Migrations
                     b.HasIndex("UserId");
 
                     b.ToTable("Orders");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = new Guid("01572fc3-c799-4fe7-9734-5b220d18e731"),
+                            DeliveryAddress = "123 Main St, City",
+                            DeliveryTime = new DateTime(2025, 2, 26, 22, 44, 49, 887, DateTimeKind.Utc).AddTicks(9215),
+                            TotalAmount = 1700.00m,
+                            UserId = new Guid("78e75da3-69b3-4e21-bc9e-27e3637ee72e")
+                        },
+                        new
+                        {
+                            Id = new Guid("be75656f-ffd4-44a3-89de-c5a2969b989e"),
+                            DeliveryAddress = "456 Elm St, Town",
+                            DeliveryTime = new DateTime(2025, 2, 28, 22, 44, 49, 887, DateTimeKind.Utc).AddTicks(9393),
+                            TotalAmount = 1100.00m,
+                            UserId = new Guid("78e75da3-69b3-4e21-bc9e-27e3637ee72e")
+                        });
                 });
 
             modelBuilder.Entity("StructuredMarket.Domain.Entities.OrderItem", b =>
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<DateTime>("CreatedAt")
-                        .HasColumnType("datetime2");
-
-                    b.Property<Guid>("CreatedBy")
                         .HasColumnType("uniqueidentifier");
 
                     b.Property<Guid>("OrderId")
@@ -86,12 +87,6 @@ namespace StructuredMarket.Infrastructure.Migrations
                     b.Property<decimal>("UnitPrice")
                         .HasColumnType("decimal(18,2)");
 
-                    b.Property<DateTime?>("UpdatedAt")
-                        .HasColumnType("datetime2");
-
-                    b.Property<Guid?>("UpdatedBy")
-                        .HasColumnType("uniqueidentifier");
-
                     b.HasKey("Id");
 
                     b.HasIndex("OrderId");
@@ -99,6 +94,32 @@ namespace StructuredMarket.Infrastructure.Migrations
                     b.HasIndex("ProductId");
 
                     b.ToTable("OrderItems");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = new Guid("f96168d4-b490-4c7d-a9bc-e8bfb209e9dd"),
+                            OrderId = new Guid("01572fc3-c799-4fe7-9734-5b220d18e731"),
+                            ProductId = new Guid("e7060eeb-1fc5-4709-a780-04fff8005178"),
+                            Quantity = 1,
+                            UnitPrice = 0m
+                        },
+                        new
+                        {
+                            Id = new Guid("72de081c-f91d-4493-81bb-3a34f5088db6"),
+                            OrderId = new Guid("01572fc3-c799-4fe7-9734-5b220d18e731"),
+                            ProductId = new Guid("a4d28344-539a-4b10-bd45-8ac46fe01d55"),
+                            Quantity = 1,
+                            UnitPrice = 0m
+                        },
+                        new
+                        {
+                            Id = new Guid("6891c06d-3d53-4dc6-a6c0-bdbe5f10f582"),
+                            OrderId = new Guid("be75656f-ffd4-44a3-89de-c5a2969b989e"),
+                            ProductId = new Guid("515e109a-c1bf-4c53-9221-6995b978631e"),
+                            Quantity = 1,
+                            UnitPrice = 0m
+                        });
                 });
 
             modelBuilder.Entity("StructuredMarket.Domain.Entities.Permission", b =>
@@ -107,21 +128,9 @@ namespace StructuredMarket.Infrastructure.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uniqueidentifier");
 
-                    b.Property<DateTime>("CreatedAt")
-                        .HasColumnType("datetime2");
-
-                    b.Property<Guid>("CreatedBy")
-                        .HasColumnType("uniqueidentifier");
-
                     b.Property<string>("Name")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
-
-                    b.Property<DateTime?>("UpdatedAt")
-                        .HasColumnType("datetime2");
-
-                    b.Property<Guid?>("UpdatedBy")
-                        .HasColumnType("uniqueidentifier");
 
                     b.HasKey("Id");
 
@@ -132,12 +141,6 @@ namespace StructuredMarket.Infrastructure.Migrations
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<DateTime>("CreatedAt")
-                        .HasColumnType("datetime2");
-
-                    b.Property<Guid>("CreatedBy")
                         .HasColumnType("uniqueidentifier");
 
                     b.Property<string>("Description")
@@ -159,15 +162,47 @@ namespace StructuredMarket.Infrastructure.Migrations
                     b.Property<decimal>("Price")
                         .HasColumnType("decimal(18,2)");
 
-                    b.Property<DateTime?>("UpdatedAt")
-                        .HasColumnType("datetime2");
-
-                    b.Property<Guid?>("UpdatedBy")
-                        .HasColumnType("uniqueidentifier");
-
                     b.HasKey("Id");
 
                     b.ToTable("Products");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = new Guid("e7060eeb-1fc5-4709-a780-04fff8005178"),
+                            Description = "",
+                            Image = "",
+                            Merchant = "",
+                            Name = "Laptop",
+                            Price = 1500.00m
+                        },
+                        new
+                        {
+                            Id = new Guid("515e109a-c1bf-4c53-9221-6995b978631e"),
+                            Description = "",
+                            Image = "",
+                            Merchant = "",
+                            Name = "Smartphone",
+                            Price = 800.00m
+                        },
+                        new
+                        {
+                            Id = new Guid("a4d28344-539a-4b10-bd45-8ac46fe01d55"),
+                            Description = "",
+                            Image = "",
+                            Merchant = "",
+                            Name = "Headphones",
+                            Price = 200.00m
+                        },
+                        new
+                        {
+                            Id = new Guid("2cac038b-e99b-4b66-a6d3-8e983a49d4c5"),
+                            Description = "",
+                            Image = "",
+                            Merchant = "",
+                            Name = "Smartwatch",
+                            Price = 300.00m
+                        });
                 });
 
             modelBuilder.Entity("StructuredMarket.Domain.Entities.Role", b =>
@@ -176,21 +211,9 @@ namespace StructuredMarket.Infrastructure.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uniqueidentifier");
 
-                    b.Property<DateTime>("CreatedAt")
-                        .HasColumnType("datetime2");
-
-                    b.Property<Guid>("CreatedBy")
-                        .HasColumnType("uniqueidentifier");
-
                     b.Property<string>("Name")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
-
-                    b.Property<DateTime?>("UpdatedAt")
-                        .HasColumnType("datetime2");
-
-                    b.Property<Guid?>("UpdatedBy")
-                        .HasColumnType("uniqueidentifier");
 
                     b.HasKey("Id");
 
@@ -200,15 +223,11 @@ namespace StructuredMarket.Infrastructure.Migrations
                         new
                         {
                             Id = new Guid("11111111-1111-1111-1111-111111111111"),
-                            CreatedAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            CreatedBy = new Guid("00000000-0000-0000-0000-000000000000"),
                             Name = "ADMIN"
                         },
                         new
                         {
                             Id = new Guid("22222222-2222-2222-2222-222222222222"),
-                            CreatedAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            CreatedBy = new Guid("00000000-0000-0000-0000-000000000000"),
                             Name = "USER"
                         });
                 });
@@ -234,12 +253,6 @@ namespace StructuredMarket.Infrastructure.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uniqueidentifier");
 
-                    b.Property<DateTime>("CreatedAt")
-                        .HasColumnType("datetime2");
-
-                    b.Property<Guid>("CreatedBy")
-                        .HasColumnType("uniqueidentifier");
-
                     b.Property<string>("Email")
                         .IsRequired()
                         .HasMaxLength(255)
@@ -261,12 +274,6 @@ namespace StructuredMarket.Infrastructure.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<DateTime?>("UpdatedAt")
-                        .HasColumnType("datetime2");
-
-                    b.Property<Guid?>("UpdatedBy")
-                        .HasColumnType("uniqueidentifier");
-
                     b.Property<string>("Username")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
@@ -277,6 +284,18 @@ namespace StructuredMarket.Infrastructure.Migrations
                         .IsUnique();
 
                     b.ToTable("Users");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = new Guid("78e75da3-69b3-4e21-bc9e-27e3637ee72e"),
+                            Email = "nada@gmail.com",
+                            FirstName = "nada",
+                            LastName = "mohamed",
+                            PasswordHash = "lK93K78vTMYYLwk0C/ccytNjZ8GXIXpuda/rE98OCe5wV2F6uI5HX3cqUHZtZZFi",
+                            Phone = "123456789",
+                            Username = "nadaMohamed"
+                        });
                 });
 
             modelBuilder.Entity("StructuredMarket.Domain.Entities.UserRole", b =>

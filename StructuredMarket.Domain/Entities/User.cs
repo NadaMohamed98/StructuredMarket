@@ -12,6 +12,18 @@ namespace StructuredMarket.Domain.Entities
             Email = email;
             Phone = phone;
         }
+
+        public User(Guid id, string firstName, string lastName, string username, string email, string phone, string passwordHash)
+        {
+            Id = id;
+            FirstName = firstName;
+            LastName = lastName;
+            Username = username;
+            Email = email;
+            Phone = phone;
+            PasswordHash = passwordHash;
+        }
+
         public Guid Id { get; set; } = Guid.NewGuid();
         public string FirstName { get; set; } = string.Empty;
         public string LastName { get; set; } = string.Empty;
@@ -19,10 +31,7 @@ namespace StructuredMarket.Domain.Entities
         public string Email { get; set; } = string.Empty;
         public string Phone { get; set; } = string.Empty;
         public string PasswordHash { get; set; } = string.Empty;
-        public Guid CreatedBy { get; set; }
-        public DateTime CreatedAt { get; set; }
-        public Guid? UpdatedBy { get; set; }
-        public DateTime? UpdatedAt { get; set; }
+
         public ICollection<UserRole> UserRoles { get; set; } = new List<UserRole>();
         public ICollection<Order> Orders { get; set; } = new List<Order>();
     }

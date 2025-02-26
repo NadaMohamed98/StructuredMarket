@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using StructuredMarket.Application.Features.Orders.Models;
 using StructuredMarket.Application.Features.Products.Models;
 using StructuredMarket.Application.Features.Users.Models;
 using StructuredMarket.Domain.Entities;
@@ -11,6 +12,8 @@ namespace StructuredMarket.Application
         {
             CreateMap<User, UserDto>().ReverseMap();
             CreateMap<Product, ProductResModel>().ReverseMap();
+            CreateMap<Order, OrderModel>().ReverseMap();
+            CreateMap<OrderItem, OrderDetailsModel>().ReverseMap();
         }
     }
 }

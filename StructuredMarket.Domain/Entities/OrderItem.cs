@@ -9,10 +9,6 @@
         public Product Product { get; set; }
         public int Quantity { get; set; }
         public decimal UnitPrice { get; set; }
-        public Guid CreatedBy { get; set; }
-        public DateTime CreatedAt { get; set; }
-        public Guid? UpdatedBy { get; set; }
-        public DateTime? UpdatedAt { get; set; }
 
         public decimal TotalPrice => Quantity * UnitPrice;
 

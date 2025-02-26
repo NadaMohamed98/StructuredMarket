@@ -60,6 +60,67 @@ namespace StructuredMarket.Infrastructure.Data
                 new Role { Id = new Guid("22222222-2222-2222-2222-222222222222"), Name = "USER" }
             );
 
+            // Define Product IDs
+            var laptopId = Guid.NewGuid();
+            var smartphoneId = Guid.NewGuid();
+            var headphonesId = Guid.NewGuid();
+            var smartwatchId = Guid.NewGuid();
+
+            // Define Order IDs
+            var order1Id = Guid.NewGuid();
+            var order2Id = Guid.NewGuid();
+
+            var userId = Guid.NewGuid(); // Example User ID
+
+            // Seed User
+            modelBuilder.Entity<User>().HasData(
+                new User
+                (
+                    userId,
+                     "nada",
+                    "mohamed",
+                    "nadaMohamed",
+                    "nada@gmail.com",
+                    "123456789",
+                    "lK93K78vTMYYLwk0C/ccytNjZ8GXIXpuda/rE98OCe5wV2F6uI5HX3cqUHZtZZFi" // nada123
+                )
+            );
+
+            // Seed Products
+            modelBuilder.Entity<Product>().HasData(
+                new Product { Id = laptopId, Name = "Laptop", Price = 1500.00m },
+                new Product { Id = smartphoneId, Name = "Smartphone", Price = 800.00m },
+                new Product { Id = headphonesId, Name = "Headphones", Price = 200.00m },
+                new Product { Id = smartwatchId, Name = "Smartwatch", Price = 300.00m }
+            );
+
+            // Seed Orders
+            modelBuilder.Entity<Order>().HasData(
+                new Order
+                {
+                    Id = order1Id,
+                    UserId = userId,
+                    DeliveryAddress = "123 Main St, City",
+                    TotalAmount = 1700.00m,
+                    DeliveryTime = DateTime.UtcNow.AddDays(3)
+                },
+                new Order
+                {
+                    Id = order2Id,
+                    UserId = userId,
+                    DeliveryAddress = "456 Elm St, Town",
+                    TotalAmount = 1100.00m,
+                    DeliveryTime = DateTime.UtcNow.AddDays(5)
+                }
+            );
+
+            // Seed Order Items (Referencing Product IDs)
+            modelBuilder.Entity<OrderItem>().HasData(
+                new OrderItem { Id = Guid.NewGuid(), OrderId = order1Id, ProductId = laptopId, Quantity = 1 },
+                new OrderItem { Id = Guid.NewGuid(), OrderId = order1Id, ProductId = headphonesId, Quantity = 1 },
+                new OrderItem { Id = Guid.NewGuid(), OrderId = order2Id, ProductId = smartphoneId, Quantity = 1 }
+            );
+
         }
     }
 }
